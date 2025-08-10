@@ -168,7 +168,7 @@ if __name__ == "__main__":
 
     for i in range(1, num_tests+1):
         # random dimension m between 5 and 20
-        m = np.random.randint(5, 21)
+        m = np.random.randint(10, 31)
         # sample q from Dirichlet to get a random PMF of length m+1
         q = np.random.dirichlet(alpha=np.ones(m+1))
 
