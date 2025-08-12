@@ -113,20 +113,20 @@ if __name__ == "__main__":
     rho = lmd / mu
 
     # rho_values = [0.2, 0.5, 0.8]  # 你可以改成需要的 rho 列表
-    n_repeat = 100_000                  # 每个 rho 生成多少次分布
+    n_repeat = 1_000                  # 每个 rho 生成多少次分布
 
     ratios_sd1 = []
     ratios_sd2 = []
 
     for i in range(n_repeat):
-        a, q = generate_discrete_dist(rho, gap=10)
+        a, q = generate_discrete_dist(rho, gap=5)
         a_full, q_full = extend_to_full_support(a, q)
 
-        d_sd1, status_sd1 = SD_MM1_V1(q, a, lmd, mu, verbose=False)
-        d_sd2, status_sd2 = SD_MM1_V2(q, a, lmd, mu, verbose=False)
-        d_sd2_true, status_sd2_true = SD_MM1_V2(q_full, a_full, lmd, mu, verbose=False)
+        d_sd1, status_sd1 = SD_MM1_V1(a, q, lmd, mu, verbose=False)
+        d_sd2, status_sd2 = SD_MM1_V2(a, q, lmd, mu, verbose=False)
+        d_sd2_true, status_sd2_true = SD_MM1_V2(a_full, q_full, lmd, mu, verbose=False)
 
-        d_w = W1_MM1(q, a, rho, padding=100)
+        d_w = W1_MM1(a, q, rho, padding=100)
         d_sd1_true = d_w
 
         # Build ratios; skip invalid denominators

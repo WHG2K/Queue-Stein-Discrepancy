@@ -6,7 +6,7 @@ from gurobipy import GRB
 import math
 
 
-def W1_MM1(q: list, a: list, rho: float, padding: int = 100, tolerance: float = 1e-9):
+def W1_MM1(a: list, q: list, rho: float, padding: int = 100, tolerance: float = 1e-9):
     """
     Computes the 1-Wasserstein distance between an empirical distribution Q
     and the theoretical M/M/1 steady-state distribution X, using rho directly.
@@ -88,7 +88,7 @@ def W1_MM1(q: list, a: list, rho: float, padding: int = 100, tolerance: float = 
 
 
 
-def SD_MM1_V1(q: list, a: list, lmd: float, mu: float, verbose: bool = False):
+def SD_MM1_V1(a: list, q: list, lmd: float, mu: float, verbose: bool = False):
     """
     Computes the W1 distance by solving a robust, sparse Linear Program.
 
@@ -243,7 +243,7 @@ def SD_MM1_V1(q: list, a: list, lmd: float, mu: float, verbose: bool = False):
 
 
 
-def SD_MM1_V2(q: list, a: list, lmd: float, mu: float, verbose: bool = False):
+def SD_MM1_V2(a: list, q: list, lmd: float, mu: float, verbose: bool = False):
     """
     Computes the W1 distance by solving a robust, sparse Linear Program.
 
