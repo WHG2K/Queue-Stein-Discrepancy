@@ -2,7 +2,7 @@ from src.MM1 import mm1_sim
 import numpy as np
 from collections import Counter
 import matplotlib.pyplot as plt
-from src.discrepancy import W1_MM1, SD_MM1_V1, SD_MM1_V2
+from src.gsd_mm1 import W1_MM1, SD_MM1_V1, SD_MM1_V2
 import argparse
 from dotenv import load_dotenv
 from typing import List, Tuple

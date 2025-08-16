@@ -3,7 +3,8 @@ from scipy.stats import wasserstein_distance
 import math
 import gurobipy as gp
 from gurobipy import GRB
-from src.discrepancy import SD_MM1_V1, SD_MM1_V2, W1_MM1
+from src.gsd_mm1 import GSD_MM1_V1, GSD_MM1_V2
+from src.utils import W1_MM1
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
 import argparse
@@ -120,18 +121,22 @@ if __name__ == "__main__":
 
     for i in range(n_repeat):
         a, q = generate_discrete_dist(rho, gap=5)
-        a_full, q_full = extend_to_full_support(a, q)
+        max_a = max(a)
+        a_, q_ = a + [max_a + 100], q + [0]
+        a_full, q_full = extend_to_full_support(a_, q_)
 
-        d_sd1, status_sd1 = SD_MM1_V1(a, q, lmd, mu, verbose=False)
-        d_sd2, status_sd2 = SD_MM1_V2(a, q, lmd, mu, verbose=False)
-        d_sd2_true, status_sd2_true = SD_MM1_V2(a_full, q_full, lmd, mu, verbose=False)
+        # a_full, q_full = extend_to_full_support(a, q)
+
+        d_gsd1, status_gsd1 = GSD_MM1_V1(a, q, lmd, mu, verbose=False)
+        d_gsd2, status_gsd2 = GSD_MM1_V2(a, q, lmd, mu, verbose=False)
+        d_gsd2_true, status_gsd2_true = GSD_MM1_V2(a_full, q_full, lmd, mu, verbose=False)
 
         d_w = W1_MM1(a, q, rho, padding=100)
-        d_sd1_true = d_w
+        d_gsd1_true = d_w
 
         # Build ratios; skip invalid denominators
-        r1 = np.nan if (d_sd1_true is None or d_sd1_true == 0) else (d_sd1 / d_sd1_true)
-        r2 = np.nan if (d_sd2_true is None or d_sd2_true == 0) else (d_sd2 / d_sd2_true)
+        r1 = np.nan if (d_gsd1_true is None or d_gsd1_true == 0) else (d_gsd1 / d_gsd1_true)
+        r2 = np.nan if (d_gsd2_true is None or d_gsd2_true == 0) else (d_gsd2 / d_gsd2_true)
 
         ratios_sd1.append(r1)
         ratios_sd2.append(r2)
