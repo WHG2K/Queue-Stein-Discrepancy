@@ -25,7 +25,7 @@ if __name__ == "__main__":
         load_dotenv(override=True, dotenv_path=f'{args.node}.env')
 
     # ------------- parameters (match your latest script) -------------
-    T = 1000_00
+    T = 1000_000
     np.random.seed(2025)
 
     # service: mu_i = 1 (constant)
