@@ -1,4 +1,4 @@
-from src.MM1 import mm1_sim
+from src.sim_mm1 import mm1_sim
 import numpy as np
 from collections import Counter
 import matplotlib.pyplot as plt
