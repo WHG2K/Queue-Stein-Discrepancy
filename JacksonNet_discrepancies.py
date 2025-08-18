@@ -85,6 +85,8 @@ if __name__ == "__main__":
     P_target       = P.copy()
 
     KSD_exp_win = []
+    KSD_imq_win = []
+    KSD_exp_ham_win = []
 
     print(f"[info] Using AFTER-change target: lambdas={lambdas_target}, mus={mus_target}, mu={mu}")
 
@@ -104,7 +106,28 @@ if __name__ == "__main__":
             kernel_params={"beta": 0.95},
             verbose=False
         )
+        ksd_imq = KSD_Jackson(
+            a=window_states,
+            q=q,
+            lambdas=lambdas_target,
+            mus=mus_target,
+            P=P_target,
+            kernel="imq",
+            kernel_params={"c": 1.0, "alpha": 0.5},
+            verbose=False
+        )
+        ksd_exp_ham = KSD_Jackson(
+            a=window_states,
+            q=q,
+            lambdas=lambdas_target,
+            mus=mus_target,
+            P=P_target,
+            kernel="exp_hamming",
+            verbose=False
+        )
         KSD_exp_win.append(ksd_exp)
+        KSD_imq_win.append(ksd_imq)
+        KSD_exp_ham_win.append(ksd_exp_ham)
         x_axis.append(s + window_size)  # end-of-window index on the regular grid
     t1 = time.time()
     print(f"[timing] sliding KSD done in {t1 - t0:.2f}s with {len(KSD_exp_win)} windows")
@@ -118,10 +141,12 @@ if __name__ == "__main__":
         os.makedirs(folder)
 
     fig, ax = plt.subplots(figsize=(8, 5))
-    ax.plot(x_axis, KSD_exp_win, label="KSD exp (beta=0.95)", linewidth=1.5, color="tab:green")
+    ax.plot(x_axis, KSD_exp_win, label="KSD exp", linewidth=1.5, color="tab:green")
+    ax.plot(x_axis, KSD_imq_win, label="KSD imq", linewidth=1.5, color="tab:blue")
+    ax.plot(x_axis, KSD_exp_ham_win, label="KSD exp ham", linewidth=1.5, color="tab:red")
     ax.set_xlabel("Sample index (end of window)")
     ax.set_ylabel("Discrepancy")
-    ax.set_title("Jackson network KSD over time (λ1 jumps at T/2)")
+    ax.set_title("Jackson network KSD")
     ax.legend()
     ax.grid(True, alpha=0.3)
     fig.tight_layout()
