@@ -29,7 +29,7 @@ if __name__ == "__main__":
     np.random.seed(2025)
 
     # service: mu_i = 1 (constant)
-    mu = 1.0
+    mu = 10
     mus_t = [lambda t, r=mu: r for _ in range(3)]
     mumax = [mu, mu, mu]
 
@@ -39,8 +39,8 @@ if __name__ == "__main__":
                   [0.0, 0.2, 0.0]], dtype=float)
 
     # external arrivals: only lambda_1 changes at T/2; lambda_2, lambda_3 constant
-    lam1_low, lam1_high = 0.6, 0.7
-    lam2_const, lam3_const = 0.2, 0.2
+    lam1_low, lam1_high = 6, 7
+    lam2_const, lam3_const = 2, 2
 
     def lambda1_t(t): 
         return lam1_low if t < T/2 else lam1_high
